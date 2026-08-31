@@ -1,0 +1,97 @@
+@import "@fontsource/ibm-plex-mono/200.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/700.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/700.css";
+
+@font-face {
+  font-family: "EP Boxi";
+  src: url("/fonts/EPBoxi-Bi.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "EP Boxi";
+  src: url("/fonts/EPBoxi-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-brand: #9c0000;
+
+  --font-wordmark: "EP Boxi", "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Wide / landscape: Figma-like scale vs the shorter viewport side. */
+  --cover-size: min(52vmin, calc(90vw - 3.5rem));
+  --wordmark-size: clamp(1.15rem, calc(var(--cover-size) * 0.073), 2.4rem);
+  /* Figma 232.9 / 520: 4×0.6em advance is wider than the cover; ink of L/E matches it. */
+  --live-size: calc(var(--cover-size) * 0.448);
+  --title-size: clamp(0.75rem, calc(var(--cover-size) * 0.031), 1rem);
+  --artist-size: clamp(0.625rem, calc(var(--cover-size) * 0.023), 0.75rem);
+  --icon-speaker: clamp(1.35rem, calc(var(--cover-size) * 0.059), 1.9rem);
+  --icon-play: clamp(0.9rem, calc(var(--cover-size) * 0.035), 1.15rem);
+  --control-gap: clamp(0.45rem, calc(var(--cover-size) * 0.023), 0.8rem);
+  --overlay-inset: clamp(0.3rem, calc(var(--cover-size) * 0.0135), 0.5rem);
+  --overlay-pad: clamp(0.45rem, calc(var(--cover-size) * 0.029), 0.95rem);
+}
+
+/* Narrow portrait: fill width. Reserve space for padding + side controls.
+   58dvh keeps wordmark + LIVE + cover inside short / tablet portrait frames. */
+@media (max-width: 48rem) and (orientation: portrait) {
+  :root {
+    --cover-size: min(92vw, calc(100vw - 3.75rem), 58dvh);
+    --icon-speaker: clamp(1.75rem, calc(var(--cover-size) * 0.059), 2.25rem);
+    --icon-play: clamp(1.25rem, calc(var(--cover-size) * 0.035), 1.6rem);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-white);
+  color: var(--color-black);
+  font-family: var(--font-mono);
+}
+
+#app {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 4vmin;
+}
+
+@media (max-width: 48rem) and (orientation: portrait) {
+  #app {
+    padding: max(1.25rem, env(safe-area-inset-top))
+      max(0.55rem, env(safe-area-inset-right))
+      max(1.25rem, env(safe-area-inset-bottom))
+      max(0.55rem, env(safe-area-inset-left));
+  }
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
