@@ -29,10 +29,11 @@ Ouvre `http://localhost:5173`. Vite reverse-proxy `/api/nowplaying` vers AzuraCa
 ## Production (Docker)
 
 ```bash
+cp .env.example .env
 docker compose up --build
 ```
 
-Le player est servi en HTTP sur `http://localhost` (port hôte 80 → 8080 dans le conteneur).
+Le player est servi en HTTP sur `http://localhost` (port hôte `DOCKER_PORT`, 80 par défaut → 8080 dans le conteneur).
 
 Place un reverse proxy TLS (Caddy, Traefik, Nginx) devant le conteneur en production. Ne pas exposer le port 80 tel quel sur Internet.
 
@@ -40,8 +41,11 @@ Place un reverse proxy TLS (Caddy, Traefik, Nginx) devant le conteneur en produc
 
 Les variables `VITE_*` sont interpolées **au build**. Copier `apps/web/.env.example` vers `apps/web/.env` en local. L’image Docker utilise l’exemple versionné, jamais un `.env` local.
 
+Le port publié par Docker Compose se définit à la racine du dépôt (`cp .env.example .env`). Docker Compose lit ce fichier pour interpoler `docker-compose.yml`.
+
 | Variable | Défaut | Rôle |
 | --- | --- | --- |
+| `DOCKER_PORT` | `80` | Port hôte publié (`hôte:8080` dans le conteneur) |
 | `VITE_STREAM_URL` | `https://azuracast.ramdam.fm/listen/ramdam/feed.mp3` | Flux MP3 |
 | `VITE_NOWPLAYING_URL` | `/api/nowplaying/ramdam` | Métadonnées (via proxy) |
 | `VITE_WS_URL` | `wss://azuracast.ramdam.fm/api/live/nowplaying/websocket` | Nowplaying temps réel |
